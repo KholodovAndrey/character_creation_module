@@ -9,7 +9,6 @@ class Character:
     BREIF_DESC_CHAR_CLASS = 'отважный любитель приключений'
     RANGE_VALUE_ATTACK = (1, 3)
     RANGE_VALUE_DEFENCE = (1, 5)
-    # Вот они — две новые константы.
     SPECIAL_BUFF = 15
     SPECIAL_SKILL = 'Удача'
 
@@ -17,17 +16,14 @@ class Character:
         self.name = name
 
     def attack(self):
-        # Описываем метод атаки.
         value_attack = DEFAULT_ATTACK + randint(*self.RANGE_VALUE_ATTACK)
         return (f'{self.name} нанёс противнику урон, равный '
                 f'{value_attack}')
 
-    # Объявляем метод защиты.
     def defence(self):
         value_defence = DEFAULT_DEFENCE + randint(*self.RANGE_VALUE_DEFENCE)
         return (f'{self.name} блокировал {value_defence} ед. урона.')
 
-    # Объявляем метод специального умения.
     def special(self):
         return (f'{self.name} применил специальное умение '
                 f'"{self.SPECIAL_SKILL} {self.SPECIAL_BUFF}".')
@@ -78,7 +74,6 @@ def choice_char_class(char_name: str) -> Character:
                                'за которого хочешь играть: Воитель — warrior, '
                                'Маг — mage, Лекарь — healer: ')
         char_class: Character = game_classes[selected_class](char_name)
-        # Вывели в терминал описание персонажа.
         print(char_class)
         approve_choice = input('Нажми (Y), чтобы подтвердить выбор, '
                                'или любую другую кнопку, '
@@ -91,21 +86,16 @@ def start_training(character):
     Принимает на вход имя и класс персонажа.
     Возвращает сообщения о результатах цикла тренировки персонажа.
     """
-    des_class = {'warrior': ', ты Воитель — великий мастер ближнего боя.',
-                 'mage': ', ты Маг — превосходный укротитель стихий.',
-                 'healer': ', ты Лекарь — чародей, способный исцелять раны.'}
-    print(f'{self.name}{des_class[self.name]}')
+    commands={'attack':character.attack,'defence': character.defence,
+                'special': character.special}
     print('Потренируйся управлять своими навыками.')
     print('Введи одну из команд: attack — чтобы атаковать противника, '
-          'defence — чтобы блокировать атаку противника или '
-          'special — чтобы использовать свою суперсилу.')
+        'defence — чтобы блокировать атаку противника или '
+        'special — чтобы использовать свою суперсилу.')
     print('Если не хочешь тренироваться, введи команду skip.')
     cmd = None
     while cmd != 'skip':
         cmd = input('Введи команду: ')
-        commands = {'attack': attack,
-                    'defence': defence,
-                    'special': special}
         if cmd in commands:
-            print(self.commands[cmd]())
-    return 'Тренировка окончена.'
+            print(commands[cmd]())
+    return print('Тренировка окончена.')
